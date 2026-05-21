@@ -1,0 +1,50 @@
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: studiox_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html:delegated
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php-fpm
+    networks:
+      - studiox
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    container_name: studiox_php_fpm
+    volumes:
+      - ./app:/var/www/html:delegated
+    networks:
+      - studiox
+
+  mysql:
+    image: mysql:8.0
+    container_name: studiox_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: studio_x
+      MYSQL_USER: studiox
+      MYSQL_PASSWORD: studiox
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - studiox_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - studiox
+
+networks:
+  studiox:
+    driver: bridge
+
+volumes:
+  studiox_mysql_data:
