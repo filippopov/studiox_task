@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: StudioX API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local
+paths:
+  /api/products:
+    get:
+      summary: List products
+      tags:
+        - Products
+      parameters:
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: content
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: min_price
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: max_price
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 15
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+  /api/categories:
+    get:
+      summary: List categories with product counts
+      tags:
+        - Categories
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Office Chairs
+        products_count:
+          type: integer
+          example: 12
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        category_id:
+          type: integer
+          example: 1
+        price:
+          type: number
+          format: float
+          example: 99.99
+        title:
+          type: string
+          example: Ergonomic Chair
+        content:
+          type: string
+          example: Comfortable chair with lumbar support.
+        image:
+          type: string
+          example: https://example.com/images/chair.png
+        category:
+          $ref: "#/components/schemas/Category"
+    ProductList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        current_page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 15
+        total:
+          type: integer
+          example: 200

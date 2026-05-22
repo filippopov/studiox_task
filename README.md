@@ -1,7 +1,7 @@
 # StudioX Laravel Containers
 
 This repo provides a Docker Compose setup for Laravel with:
-- PHP 8.3 FPM (API runtime)
+- PHP 8.3 FPM (API runtime) Laravel 12
 - MySQL 8.0 (host port 3307 for HeidiSQL)
 - Nginx (host port 8080)
 
@@ -23,17 +23,57 @@ docker compose exec php-fpm composer install
 docker compose exec php-fpm php artisan key:generate
 docker compose exec php-fpm php artisan migrate
 
-# Tests
-docker compose exec php-fpm php artisan test
 ```
 
-## Test endpoint
+## OpenAPI
 
-Once the containers are running, you can test the API route:
+The OpenAPI spec is available at:
 
-- Browser/Postman: http://localhost:8080/api/ping
+- ./openapi.yaml
 
-## HeidiSQL connection
+You can view it by opening the file in Swagger Editor or any OpenAPI UI.
+You can also open the built-in docs UI at:
+
+- http://localhost:8080/docs
+
+## Endpoint examples
+
+```bash
+# All products (paginated)
+curl "http://localhost:8080/api/products"
+
+# Filter by title/content
+curl "http://localhost:8080/api/products?title=chair&content=wood"
+
+# Filter by price range
+curl "http://localhost:8080/api/products?min_price=10&max_price=100"
+
+# All categories with products_count
+curl "http://localhost:8080/api/categories"
+```
+
+## Implementation notes (BG)
+
+Как е подходил към реализацията:
+
+1. Добавих Docker контейнери за PHP, MySQL и Nginx сървър.
+2. След това добавих модели и seed-ове за двете таблици — products и categories. По този начин създадох тестови данни в базата.
+3. Добавих контролери и сървиси, където се намира логиката на двата ендпойнта. Добавих и маршрути (routes) за двата ендпойнта.
+4. Добавих OpenAPI документация.
+
+Какви технически решения е взел:
+
+- Laravel 12 (PHP 8.3)
+- MySQL 8.0
+- Nginx 1.27 (Alpine)
+- Docker Compose
+- OpenAPI 3.0.3 + Swagger UI (CDN v5)
+
+Как би надградил решението в реална production среда:
+
+Бих добавил unit и feature тестове, въпреки че за проект с едва два ендпойнта това може да бъде прекалено.
+
+## MySQL connection
 
 - Host: 127.0.0.1
 - Port: 3307
