@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/ping', function () {
-    return response()->json([
-        'ok' => true,
-        'message' => 'pong',
-    ]);
+Route::get('/products', [ProductController::class, 'index']);
+
+Route::get('/health', function () {
+	return response()->json([
+		'status' => 'ok',
+	]);
 });
