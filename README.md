@@ -27,6 +27,12 @@ docker compose exec php-fpm php artisan migrate
 docker compose exec php-fpm php artisan test
 ```
 
+## Test endpoint
+
+Once the containers are running, you can test the API route:
+
+- Browser/Postman: http://localhost:8080/api/ping
+
 ## HeidiSQL connection
 
 - Host: 127.0.0.1
