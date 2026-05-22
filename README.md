@@ -40,16 +40,16 @@ You can also open the built-in docs UI at:
 
 ```bash
 # All products (paginated)
-curl "http://localhost:8080/api/products"
+"http://localhost:8080/api/products"
 
 # Filter by title/content
-curl "http://localhost:8080/api/products?title=chair&content=wood"
+"http://localhost:8080/api/products?title=chair&content=wood"
 
 # Filter by price range
-curl "http://localhost:8080/api/products?min_price=10&max_price=100"
+"http://localhost:8080/api/products?min_price=10&max_price=100"
 
 # All categories with products_count
-curl "http://localhost:8080/api/categories"
+"http://localhost:8080/api/categories"
 ```
 
 ## Implementation notes (BG)
