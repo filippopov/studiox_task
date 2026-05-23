@@ -43,7 +43,7 @@ You can also open the built-in docs UI at:
 "http://localhost:8080/api/products"
 
 # Filter by title/content
-"http://localhost:8080/api/products?title=chair&content=wood"
+"http://localhost:8080/api/products?title={some_text}&content={some_text}"
 
 # Filter by price range
 "http://localhost:8080/api/products?min_price=10&max_price=100"
