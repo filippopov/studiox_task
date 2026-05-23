@@ -17,7 +17,8 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.50"
+        "phpunit/phpunit": "^11.5.50",
+        "zircote/swagger-php": "^4.11"
     },
     "autoload": {
         "psr-4": {
@@ -39,6 +40,12 @@
             "@php artisan migrate --force",
             "npm install",
             "npm run build"
+        ],
+        "openapi:generate": [
+            "@php vendor/bin/openapi --bootstrap vendor/autoload.php --format yaml --output openapi.yaml app"
+        ],
+        "openapi:sync-root": [
+            "@php -r \"copy('openapi.yaml', dirname(__DIR__).DIRECTORY_SEPARATOR.'openapi.yaml');\""
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

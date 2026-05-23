@@ -31,6 +31,20 @@ The OpenAPI spec is available at:
 
 - ./openapi.yaml
 
+The file is generated from the Laravel controllers (OpenAPI attributes) inside `./app`.
+
+### Regenerate
+
+Run inside Docker:
+
+```bash
+docker compose exec -T php-fpm composer openapi:generate
+docker compose exec -T php-fpm composer openapi:sync-root
+```
+
+- `openapi:generate` updates `./app/openapi.yaml` (this is what `http://localhost:8080/openapi.yaml` serves)
+- `openapi:sync-root` copies `./app/openapi.yaml` to `./openapi.yaml`
+
 You can view it by opening the file in Swagger Editor or any OpenAPI UI.
 You can also open the built-in docs UI at:
 

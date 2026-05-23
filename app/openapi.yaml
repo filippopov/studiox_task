@@ -1,82 +1,107 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: StudioX API
+  title: 'StudioX API'
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  -
+    url: 'http://localhost:8080'
     description: Local
 paths:
-  /api/products:
-    get:
-      summary: List products
-      tags:
-        - Products
-      parameters:
-        - name: title
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: content
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: min_price
-          in: query
-          required: false
-          schema:
-            type: number
-            format: float
-        - name: max_price
-          in: query
-          required: false
-          schema:
-            type: number
-            format: float
-        - name: per_page
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 15
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ProductList"
   /api/categories:
     get:
-      summary: List categories with product counts
       tags:
         - Categories
+      summary: 'List categories with product counts'
+      description: 'Display a listing of categories.'
+      operationId: 3f5817a34833d0a1f4af4548dd3aeaba
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Category"
+                  $ref: '#/components/schemas/Category'
+  /api/products:
+    get:
+      tags:
+        - Products
+      summary: 'List products'
+      description: 'Display a listing of products.'
+      operationId: 1bfaa78d1c2c3848ab8165c5dadcad3e
+      parameters:
+        -
+          name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: content
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: min_price
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+        -
+          name: max_price
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+        -
+          name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
 components:
   schemas:
     Category:
-      type: object
       properties:
         id:
           type: integer
           example: 1
         title:
           type: string
-          example: Office Chairs
+          example: 'Office Chairs'
         products_count:
           type: integer
           example: 12
-    Product:
       type: object
+    ProductList:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        current_page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 15
+        total:
+          type: integer
+          example: 200
+      type: object
+    Product:
       properties:
         id:
           type: integer
@@ -90,28 +115,18 @@ components:
           example: 99.99
         title:
           type: string
-          example: Ergonomic Chair
+          example: 'Ergonomic Chair'
         content:
           type: string
-          example: Comfortable chair with lumbar support.
+          example: 'Comfortable chair with lumbar support.'
         image:
           type: string
-          example: https://example.com/images/chair.png
+          example: 'https://example.com/images/chair.png'
         category:
-          $ref: "#/components/schemas/Category"
-    ProductList:
+          $ref: '#/components/schemas/Category'
       type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/Product"
-        current_page:
-          type: integer
-          example: 1
-        per_page:
-          type: integer
-          example: 15
-        total:
-          type: integer
-          example: 200
+tags:
+  -
+    name: Products
+  -
+    name: Categories
